@@ -1,0 +1,25 @@
+h1 {
+  justify-self: center;
+}
+
+form {
+  justify-self: center;
+}
+
+fieldset {
+  width: 370px;
+  height: 270px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.error-msg {
+  height: .85rem;
+  font-size: 0.85rem;
+  position: relative;
+  bottom: .5rem;
+  color: red;
+}
+
