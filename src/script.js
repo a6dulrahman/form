@@ -5,6 +5,7 @@ const fieldset = document.querySelector('fieldset');
 const email = document.querySelector('#email');
 const country = document.querySelector('[name=country]');
 const postalCode = document.querySelector('[name=postal-code]');
+const password = document.querySelector('[name=password]');
 
 country.addEventListener('click', (event) => {
   if (country.value) {
@@ -15,7 +16,7 @@ country.addEventListener('click', (event) => {
 form.addEventListener('submit', (event) => {
   event.preventDefault();
   if (form.checkValidity()) {
-    form.submit();
+    alert('Good Job! 👌');
   }
   // RETURN error message to be displayed at the appropriate controller.
   else
@@ -23,14 +24,22 @@ form.addEventListener('submit', (event) => {
       const handleValidation = () => {
         const message = validateField(elem);
         if (message) {
+          elem.setCustomValidity(message);
           elem.parentElement.nextElementSibling.textContent = message;
-        } else elem.parentElement.nextElementSibling.textContent = '';
+        } else {
+          elem.setCustomValidity('');
+          elem.parentElement.nextElementSibling.textContent = '';
+        }
       };
 
       const message = validateField(elem);
       if (message) {
+        elem.setCustomValidity(message);
         elem.parentElement.nextElementSibling.textContent = message;
-      } else elem.parentElement.nextElementSibling.textContent = '';
+      } else {
+        elem.setCustomValidity('');
+        elem.parentElement.nextElementSibling.textContent = '';
+      }
 
       elem.removeEventListener('input', handleValidation);
       elem.addEventListener('input', handleValidation);
@@ -70,14 +79,17 @@ function validateEmail(elem) {
 function validatePostalCode(elem) {
   if (!elem.value && country.value) {
     return "* can't be empty!";
-  } else if (!postalCodePatterns[country.value].regex.test(elem.value))
-    return postalCodePatterns[country.value].message;
+  } else if (elem.value && country.value) {
+    if (!postalCodePatterns[country.value].regex.test(elem.value))
+      return postalCodePatterns[country.value].message;
+  }
 }
 
 function validatePassword(elem) {
   const passwordConfirmation = document.querySelector(
     '[name=password-confirmation]',
   );
+
   if (passwordConfirmation.value) {
     if (elem.value === passwordConfirmation.value) {
       passwordConfirmation.parentElement.nextElementSibling.textContent = '';
